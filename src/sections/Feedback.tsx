@@ -104,11 +104,11 @@ export default function FeedbackSection() {
 
             {/* Scorecard UI */}
             <div className="bg-white border border-[#E4E7EC] rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(23,32,51,0.08)]">
-              <div className="bg-[#172033] px-6 py-4 flex items-center gap-3">
+              <div className="flex items-center gap-3 border-b border-[#D4DCE2] bg-[#E8F2F2]/65 px-6 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-xl">
                 <div className="w-9 h-9 rounded-xl bg-[#00AFA8] flex items-center justify-center text-[10px] font-bold text-white">AM</div>
                 <div>
-                  <p className="text-white text-[13px] font-semibold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Alex Morgan</p>
-                  <p className="text-white/60 text-[10px]">Technical Interview · Product Designer</p>
+                  <p className="text-[#172033] text-[13px] font-semibold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Alex Morgan</p>
+                  <p className="text-[#667085] text-[10px]">Technical Interview · Product Designer</p>
                 </div>
                 {submitted && (
                   <div className="ml-auto flex items-center gap-1.5 bg-[#12B76A]/20 border border-[#12B76A]/40 rounded-lg px-2.5 py-1">

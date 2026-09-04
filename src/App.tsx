@@ -15,6 +15,7 @@ import PlatformSections from "./sections/Platform"
 import ConversionSections from "./sections/Conversion"
 import ContactPage from "./pages/Contact"
 import LegalPage from "./pages/Legal"
+import BookDemoPage from "./pages/BookDemo"
 
 export default function App() {
   const [loaderVisible, setLoaderVisible] = useState(true)
@@ -38,6 +39,8 @@ export default function App() {
       <QuickHelp />
       {path === "/contact" ? (
         <ContactPage />
+      ) : path === "/book-demo" ? (
+        <BookDemoPage />
       ) : path === "/privacy" ? (
         <LegalPage type="privacy" />
       ) : path === "/terms" ? (

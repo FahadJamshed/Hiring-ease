@@ -43,10 +43,10 @@ function OverviewTab() {
 
       {/* Right: match + activity */}
       <div className="space-y-4">
-        <div className="bg-[#172033] text-white rounded-2xl p-5 text-center">
-          <p className="text-[11px] text-white/50 mb-1">AI Match Score</p>
-          <p className="text-[44px] font-bold text-white leading-none" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>94%</p>
-          <p className="text-[10px] text-[#F9D00D] mt-1">Excellent fit</p>
+        <div className="rounded-2xl border border-[#D4DCE2] bg-[#E8F2F2]/65 p-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_24px_rgba(23,32,51,0.06)] backdrop-blur-xl">
+          <p className="text-[11px] text-[#667085] mb-1">AI Match Score</p>
+          <p className="text-[44px] font-bold text-[#172033] leading-none" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>94%</p>
+          <p className="text-[10px] font-semibold text-[#008C86] mt-1">Excellent fit</p>
         </div>
         <div className="bg-white border border-[#E4E7EC] rounded-2xl p-4 space-y-3">
           <p className="text-[10px] font-bold text-[#9CA3AF] uppercase tracking-wider">Pipeline Stage</p>
@@ -240,22 +240,22 @@ export default function CandidateProfileSection() {
 
         <div className="bg-white border border-[#E4E7EC] rounded-2xl overflow-hidden shadow-[0_8px_48px_rgba(23,32,51,0.08)]">
           {/* Profile header */}
-          <div className="bg-[#172033] px-6 py-5 flex items-center gap-5">
+          <div className="flex items-center gap-5 border-b border-[#D4DCE2] bg-[#E8F2F2]/65 px-6 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-xl">
             <div className="w-14 h-14 rounded-2xl bg-[#00AFA8] flex items-center justify-center text-xl font-bold text-white flex-shrink-0">
               AM
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-start gap-3 flex-wrap">
                 <div>
-                  <h3 className="text-[18px] font-bold text-white leading-none" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <h3 className="text-[18px] font-bold text-[#172033] leading-none" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                     Alex Morgan
                   </h3>
-                  <p className="text-[12px] text-white/60 mt-0.5">Product Designer · Applied Dec 10, 2024</p>
+                  <p className="text-[12px] text-[#667085] mt-0.5">Product Designer · Applied Dec 10, 2024</p>
                 </div>
                 <div className="flex items-center gap-2 mt-1">
-                  <div className="flex items-center gap-1.5 bg-[#00AFA8]/30 border border-[#00AFA8]/50 rounded-lg px-2.5 py-1">
-                    <span className="text-[13px] font-bold text-white">94%</span>
-                    <span className="text-[9px] text-white/70">Match</span>
+                  <div className="flex items-center gap-1.5 bg-[#00AFA8]/10 border border-[#00AFA8]/25 rounded-lg px-2.5 py-1">
+                    <span className="text-[13px] font-bold text-[#008C86]">94%</span>
+                    <span className="text-[9px] text-[#667085]">Match</span>
                   </div>
                   <span className="text-[9px] font-semibold text-[#F9D00D] bg-[#F9D00D]/15 border border-[#F9D00D]/30 px-2.5 py-1 rounded-lg">
                     Interview
@@ -264,10 +264,10 @@ export default function CandidateProfileSection() {
               </div>
             </div>
             <div className="hidden md:flex items-center gap-2 flex-shrink-0">
-              <button className="text-[11px] font-medium text-white/70 bg-white/10 hover:bg-white/20 transition-colors px-3 py-2 rounded-lg border border-white/10">
+              <button className="text-[11px] font-medium text-[#475467] bg-white/45 hover:bg-white/70 transition-colors px-3 py-2 rounded-lg border border-[#D0D5DD]">
                 Move Stage
               </button>
-              <button className="text-[11px] font-semibold text-[#172033] bg-white hover:bg-[#F8FAFC] transition-colors px-3 py-2 rounded-lg">
+              <button className="text-[11px] font-semibold text-white bg-[#00AFA8] hover:bg-[#008C86] transition-colors px-3 py-2 rounded-lg shadow-[0_4px_12px_rgba(0,175,168,0.2)]">
                 Schedule Interview
               </button>
             </div>

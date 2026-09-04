@@ -218,7 +218,7 @@ export default function HeroSection() {
             </svg>
           </a>
           <a
-            href="/contact"
+            href="/book-demo"
             className="inline-flex items-center gap-2 text-[#172033] font-semibold text-sm px-7 py-3.5 rounded-[12px] bg-white border border-[#E4E7EC] hover:border-[#D0D5DD] transition-colors"
           >
             Book a Demo

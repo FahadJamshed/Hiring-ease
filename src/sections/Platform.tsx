@@ -364,14 +364,14 @@ function SuperadminSection() {
           </div>
 
           {/* Superadmin console */}
-          <div className="bg-[#172033] border border-white/10 rounded-2xl overflow-hidden shadow-[0_8px_48px_rgba(23,32,51,0.3)]">
-            <div className="border-b border-white/10 px-5 py-3.5 flex items-center gap-2">
+          <div className="overflow-hidden rounded-2xl border border-[#D4DCE2] bg-[#E8F2F2]/65 shadow-[0_12px_42px_rgba(23,32,51,0.10),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-xl">
+            <div className="border-b border-[#D4DCE2] bg-white/20 px-5 py-3.5 flex items-center gap-2">
               <div className="flex gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#F04438]/50" />
                 <div className="w-2.5 h-2.5 rounded-full bg-[#F9D00D]/50" />
                 <div className="w-2.5 h-2.5 rounded-full bg-[#12B76A]/50" />
               </div>
-              <span className="text-white/40 text-[11px] ml-1">Superadmin Console</span>
+              <span className="text-[#667085] text-[11px] ml-1">Superadmin Console</span>
             </div>
 
             <div className="p-5 grid grid-cols-2 gap-4">
@@ -397,18 +397,18 @@ function SuperadminSection() {
                   color: "#7C3AED",
                 },
               ].map((panel) => (
-                <div key={panel.title} className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <div key={panel.title} className="rounded-xl border border-[#D4DCE2] bg-white/35 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: panel.color }} />
-                    <p className="text-[10px] font-bold text-white/80">{panel.title}</p>
+                    <p className="text-[10px] font-bold text-[#172033]">{panel.title}</p>
                   </div>
                   <ul className="space-y-1.5">
                     {panel.items.map((item) => (
                       <li key={item} className="flex items-center gap-2 cursor-pointer group">
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-100 transition-opacity">
-                          <path d="M2.5 5h5M6 3l2 2-2 2" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M2.5 5h5M6 3l2 2-2 2" stroke="#667085" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <span className="text-[10px] text-white/60 group-hover:text-white/90 transition-colors">{item}</span>
+                        <span className="text-[10px] text-[#667085] group-hover:text-[#172033] transition-colors">{item}</span>
                       </li>
                     ))}
                   </ul>

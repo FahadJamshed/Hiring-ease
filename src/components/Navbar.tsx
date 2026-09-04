@@ -36,7 +36,7 @@ export default function Navbar() {
             <a
               key={l.label}
               href={`/${l.href}`}
-              className="text-sm font-medium text-[#475467] hover:text-[#172033] transition-colors"
+              className="relative py-2 text-sm font-semibold text-[#475467] transition-colors duration-200 hover:text-[#008C86] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:rounded-full after:bg-[#00AFA8] after:transition-transform after:duration-200 hover:after:scale-x-100"
             >
               {l.label}
             </a>
@@ -92,7 +92,7 @@ export default function Navbar() {
                 key={l.label}
                 href={`/${l.href}`}
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center py-3.5 text-sm font-medium text-[#475467] border-b border-[#E4E7EC] last:border-0"
+                className="flex items-center py-3.5 text-sm font-semibold text-[#475467] border-b border-[#E4E7EC] transition-colors hover:text-[#008C86] last:border-0"
               >
                 {l.label}
               </a>
