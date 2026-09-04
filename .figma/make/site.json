@@ -1,5 +1,6 @@
 {
-  "description": "Easily design and launch professional SaaS landing pages tailored for startups and businesses, enhancing online presence and conversion rates.",
+  "title": "HiringEase",
+  "description": "AI-powered applicant tracking that brings candidates, hiring pipelines, interviews, email, and team feedback into one connected workspace.",
   "robots": {
     "index": false
   },
