@@ -1,0 +1,10 @@
+{
+  "description": "Easily design and launch professional SaaS landing pages tailored for startups and businesses, enhancing online presence and conversion rates.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
