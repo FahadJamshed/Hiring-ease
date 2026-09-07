@@ -41,7 +41,7 @@ function HeroDashboard() {
   return (
     <div className="flex h-full overflow-hidden bg-white rounded-2xl border border-[#E4E7EC]">
       {/* Sidebar */}
-      <div className="w-48 bg-[#172033] flex flex-col flex-shrink-0">
+      <div className="w-48 bg-[#172033] hidden md:flex flex-col flex-shrink-0">
         <div className="px-4 py-4 border-b border-white/10">
           <img src={hiringEaseLogo} alt="HiringEase" className="w-[108px] h-auto brightness-0 invert" />
         </div>
@@ -96,7 +96,7 @@ function HeroDashboard() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-3 p-4 flex-shrink-0">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 flex-shrink-0">
           {[
             { label: "Total", value: "124", sub: "+12 this week", color: "#00AFA8" },
             { label: "Active Jobs", value: "8", sub: "3 closing soon", color: "#7C3AED" },
@@ -183,7 +183,7 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section id="home" className="pt-[220px] pb-20 px-6 overflow-hidden">
+    <section id="home" className="pt-[120px] sm:pt-[220px] pb-20 px-6 overflow-hidden">
       <div className="max-w-[1280px] mx-auto">
         {/* Headline */}
         <h1
@@ -207,7 +207,7 @@ export default function HeroSection() {
         </p>
 
         {/* CTAs */}
-        <div className={`flex items-center justify-center gap-4 mb-16 transition-all duration-700 delay-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 transition-all duration-700 delay-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           <a
             href="/contact"
             className="inline-flex items-center gap-2 bg-[#00AFA8] text-white font-semibold text-sm px-7 py-3.5 rounded-[12px] hover:bg-[#008C86] transition-colors shadow-[0_4px_16px_rgba(0,175,168,0.3)]"

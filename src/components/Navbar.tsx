@@ -26,9 +26,9 @@ export default function Navbar() {
         scrolled ? "shadow-[0_10px_32px_rgba(0,120,112,0.10)]" : ""
       }`}
     >
-      <div className="max-w-[1280px] mx-auto px-6 h-[64px] flex items-center justify-between gap-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between gap-2 lg:gap-8">
         <a href="/" aria-label="HiringEase home">
-          <Logo />
+          <Logo className="max-sm:!w-[120px]" />
         </a>
 
         <div className="hidden lg:flex items-center gap-7">
@@ -53,7 +53,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile */}
-        <div className="lg:hidden flex items-center gap-3">
+        <div className="lg:hidden flex shrink-0 items-center gap-1 sm:gap-3">
           <a
             href="/contact"
             className="text-sm font-semibold text-white bg-[#00AFA8] px-4 py-2.5 rounded-[10px]"

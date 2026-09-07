@@ -122,8 +122,8 @@ export default function FeedbackSection() {
                 {/* Ratings */}
                 <div className="space-y-4">
                   {criteria.map((c) => (
-                    <div key={c.label} className="flex items-center justify-between gap-4">
-                      <span className="text-[12px] font-medium text-[#475467] flex-shrink-0 w-32">{c.label}</span>
+                    <div key={c.label} className="grid grid-cols-[1fr_auto] sm:flex items-center justify-between gap-2 sm:gap-4">
+                      <span className="col-span-2 sm:col-span-1 text-[12px] font-medium text-[#475467] flex-shrink-0 sm:w-32">{c.label}</span>
                       <StarRating
                         value={ratings[c.label]}
                         onChange={(v) => !submitted && setRatings((prev) => ({ ...prev, [c.label]: v }))}

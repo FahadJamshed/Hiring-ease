@@ -70,7 +70,7 @@ function EmailComposer() {
           <p className="text-[12px] text-[#475467] mt-3">Best,<br />Jamie Park<br />Head of Recruiting</p>
         </div>
 
-        <div className="border-t border-[#F3F4F6] pt-4 flex items-center justify-between">
+        <div className="border-t border-[#F3F4F6] pt-4 flex flex-wrap gap-4 items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-[10px] text-[#9CA3AF]">Via recruiting@company.com</span>
             <div className="w-1 h-1 rounded-full bg-[#D0D5DD]" />
@@ -313,7 +313,7 @@ export default function EmailSection() {
                 </div>
               </div>
 
-              <div className="border-t border-[#E4E7EC] px-6 py-4 flex items-center justify-between">
+              <div className="border-t border-[#E4E7EC] px-6 py-4 flex flex-wrap gap-4 items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1.5">
                     {/* Google Calendar icon approximation */}

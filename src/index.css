@@ -308,6 +308,23 @@ main [class*="bg-[#F8FAFC]"] {
 .no-scroll::-webkit-scrollbar { display: none; }
 .no-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Phone layouts: allow content to reflow without changing desktop geometry. */
+@media (max-width: 639px) {
+  main .grid > *, main .flex > * { min-width: 0; }
+  main p, main h1, main h2, main h3, main a, main label {
+    overflow-wrap: anywhere;
+  }
+  main section.px-6 { padding-left: 16px; padding-right: 16px; }
+  main .p-6 { padding: 16px; }
+  main .px-6 { padding-left: 16px; padding-right: 16px; }
+  main .text-5xl { font-size: 2.5rem; }
+  main .flex.items-center.justify-between,
+  main .flex.items-start.justify-between { flex-wrap: wrap; gap: 12px; }
+  main select { max-width: 100%; }
+  main .relative:has(> select) { max-width: 100%; }
+  main .flex.items-center.gap-3.mt-2 { flex-wrap: wrap; }
+}
+
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #e4e7ec; border-radius: 3px; }

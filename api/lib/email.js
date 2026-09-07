@@ -84,8 +84,8 @@ function details(items) {
 
 async function deliver(messages) {
   const client = transporter()
-  const logo = await readFile(path.join(process.cwd(), "src/imports/Mask_group.png"))
-  const darkLogo = await readFile(path.join(process.cwd(), "src/imports/Mask_group_footer.png"))
+  const logo = await readFile(path.join(process.cwd(), "src/imports/email-logo-light.png"))
+  const darkLogo = await readFile(path.join(process.cwd(), "src/imports/email-logo-dark.png"))
   const results = await Promise.all(messages.map((message) => client.sendMail({ from: { name: process.env.SMTP_FROM_NAME || "HiringEase", address: process.env.SMTP_FROM_EMAIL }, ...message, attachments: [{ filename: "hiringease.png", content: logo, contentType: "image/png", cid: "hiringease-logo", contentDisposition: "inline" }, { filename: "hiringease-dark.png", content: darkLogo, contentType: "image/png", cid: "hiringease-logo-dark", contentDisposition: "inline" }] })))
   for (const result of results) {
     console.info("email_accepted", { messageId: result.messageId, accepted: result.accepted?.length ?? 0, rejected: result.rejected?.length ?? 0, response: result.response })

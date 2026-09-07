@@ -57,7 +57,7 @@ function JobDistribution() {
             </div>
 
             {/* Destinations */}
-            <div className="grid grid-cols-3 gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
               {[
                 {
                   name: "Public Job Portal",
