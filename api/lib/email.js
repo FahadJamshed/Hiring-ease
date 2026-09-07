@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer"
+import { readFile } from "node:fs/promises"
+import path from "node:path"
 
 const requests = new Map()
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -53,16 +55,38 @@ function transporter() {
 }
 
 function layout(title, body) {
-  return `<!doctype html><html><body style="margin:0;background:#f5f8f8;color:#172033;font-family:Inter,Arial,sans-serif"><main style="max-width:640px;margin:24px auto;background:#fff;border:1px solid #e4e7ec;border-radius:16px;overflow:hidden"><header style="background:#00afa8;padding:24px 32px;color:#fff;font:700 22px 'Plus Jakarta Sans',Arial,sans-serif">HiringEase</header><section style="padding:32px"><h1 style="margin:0 0 20px;font-size:24px">${escapeHtml(title)}</h1>${body}</section><footer style="padding:18px 32px;border-top:1px solid #e4e7ec;color:#667085;font-size:12px">HiringEase ATS 2.0</footer></main></body></html>`
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHtml(title)}</title></head><body style="margin:0;padding:0;background-color:#f2f7f7;color:#172033;font-family:Inter,Arial,sans-serif">
+  <style>
+  @media (prefers-color-scheme: dark) {
+    .email-logo-header { background-color:#172033 !important; }
+    .email-logo-light { display:none !important; }
+    .email-logo-dark { display:block !important; max-height:none !important; overflow:visible !important; }
+  }
+  [data-ogsc] .email-logo-header { background-color:#172033 !important; }
+  [data-ogsc] .email-logo-light { display:none !important; }
+  [data-ogsc] .email-logo-dark { display:block !important; max-height:none !important; overflow:visible !important; }
+  </style>
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all">${escapeHtml(title)} — HiringEase, your connected hiring workspace.</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#f2f7f7"><tr><td align="center" style="padding:32px 12px">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="width:100%;max-width:600px;border:1px solid #dfe9e8;border-radius:20px;background-color:#ffffff">
+  <tr><td height="5" bgcolor="#00afa8" style="border-radius:20px 20px 0 0;font-size:1px">&nbsp;</td></tr>
+  <tr><td class="email-logo-header" align="center" bgcolor="#ffffff" style="padding:32px 24px;background-color:#ffffff;border-bottom:1px solid #e7efee"><img class="email-logo-light" src="cid:hiringease-logo" width="190" height="53" alt="HiringEase" style="display:block;width:190px;height:53px;border:0;background-color:#ffffff">
+  <!--[if !mso]><!--><div class="email-logo-dark" style="display:none;max-height:0;overflow:hidden;mso-hide:all"><img src="cid:hiringease-logo-dark" width="190" height="53" alt="HiringEase" style="display:block;width:190px;height:53px;border:0;background-color:#172033"></div><!--<![endif]--></td></tr>
+  <tr><td align="center" bgcolor="#effaf8" style="padding:30px 24px;background-color:#effaf8"><p style="margin:0 0 12px;font:700 11px Arial,sans-serif;letter-spacing:2px;color:#008c86">YOUR CONNECTED HIRING WORKSPACE</p><h1 style="margin:0;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:28px;line-height:1.3;font-weight:700;color:#172033">${escapeHtml(title)}</h1></td></tr>
+  <tr><td style="padding:24px;font-size:15px;line-height:1.7;color:#475467;overflow-wrap:anywhere">${body}</td></tr>
+  <tr><td style="padding:24px;border-top:1px solid #e7efee;color:#667085;font-size:12px;line-height:1.7"><strong style="color:#172033">HiringEase Team</strong><br>Make hiring feel easy.<br><span style="color:#98a2b3">HiringEase ATS 2.0 · Sent in response to your website request.</span></td></tr>
+  </table></td></tr></table></body></html>`
 }
 
 function details(items) {
-  return `<table style="border-collapse:collapse;width:100%;font-size:14px">${items.map(([label, value]) => `<tr><td style="padding:10px 0;border-bottom:1px solid #eef2f4;color:#667085;width:38%">${escapeHtml(label)}</td><td style="padding:10px 0;border-bottom:1px solid #eef2f4;font-weight:600;white-space:pre-wrap">${escapeHtml(value)}</td></tr>`).join("")}</table>`
+  return `<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #dfe9e8;border-radius:12px;width:100%;font-size:14px;background-color:#f7faf9">${items.map(([label, value]) => `<tr><th align="left" valign="top" style="padding:12px;border-bottom:1px solid #e7efee;color:#667085;width:35%;font-weight:400">${escapeHtml(label)}</th><td valign="top" style="padding:12px;border-bottom:1px solid #e7efee;color:#172033;font-weight:600;white-space:pre-wrap;word-break:break-word">${escapeHtml(value)}</td></tr>`).join("")}</table>`
 }
 
 async function deliver(messages) {
   const client = transporter()
-  const results = await Promise.all(messages.map((message) => client.sendMail({ from: { name: process.env.SMTP_FROM_NAME || "HiringEase", address: process.env.SMTP_FROM_EMAIL }, ...message })))
+  const logo = await readFile(path.join(process.cwd(), "src/imports/Mask_group.png"))
+  const darkLogo = await readFile(path.join(process.cwd(), "src/imports/Mask_group_footer.png"))
+  const results = await Promise.all(messages.map((message) => client.sendMail({ from: { name: process.env.SMTP_FROM_NAME || "HiringEase", address: process.env.SMTP_FROM_EMAIL }, ...message, attachments: [{ filename: "hiringease.png", content: logo, contentType: "image/png", cid: "hiringease-logo", contentDisposition: "inline" }, { filename: "hiringease-dark.png", content: darkLogo, contentType: "image/png", cid: "hiringease-logo-dark", contentDisposition: "inline" }] })))
   for (const result of results) {
     console.info("email_accepted", { messageId: result.messageId, accepted: result.accepted?.length ?? 0, rejected: result.rejected?.length ?? 0, response: result.response })
   }

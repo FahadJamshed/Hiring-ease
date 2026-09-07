@@ -1,4 +1,8 @@
 {
+  "functions": {
+    "api/contact.js": { "includeFiles": "src/imports/Mask_group*.png" },
+    "api/book-demo.js": { "includeFiles": "src/imports/Mask_group*.png" }
+  },
   "rewrites": [
     {
       "source": "/contact",
