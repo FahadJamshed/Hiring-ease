@@ -1,13 +1,25 @@
 import { FormEvent, useState } from "react"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
+import { submitContact } from "../services/api"
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState("")
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSubmitted(true)
+    if (sending) return
+    setSending(true)
+    setError("")
+    const form = new FormData(event.currentTarget)
+    const result = await submitContact({
+      firstName: String(form.get("firstName") || ""), lastName: String(form.get("lastName") || ""), email: String(form.get("email") || ""), company: String(form.get("company") || ""), teamSize: String(form.get("teamSize") || ""), message: String(form.get("message") || ""), website: String(form.get("website") || ""),
+    })
+    setSending(false)
+    if (result.success) setSubmitted(true)
+    else setError(result.message)
   }
 
   return (
@@ -67,6 +79,7 @@ export default function ContactPage() {
                   <h2 className="text-2xl font-bold text-[#172033]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Talk to our team</h2>
                   <p className="mb-7 mt-2 text-sm text-[#667085]">Share a few details and we'll get back to you shortly.</p>
                   <form onSubmit={handleSubmit} className="space-y-5">
+                    <input name="website" tabIndex={-1} autoComplete="off" className="absolute h-px w-px overflow-hidden opacity-0" aria-hidden="true" />
                     <div className="grid gap-5 sm:grid-cols-2">
                       <Field label="First name" name="firstName" placeholder="Alex" />
                       <Field label="Last name" name="lastName" placeholder="Morgan" />
@@ -84,8 +97,9 @@ export default function ContactPage() {
                       <span className="mb-2 block text-xs font-semibold text-[#344054]">How can we help?</span>
                       <textarea required name="message" rows={4} placeholder="Tell us about your hiring needs..." className="w-full resize-none rounded-xl border border-[#D0D5DD] bg-white/70 px-4 py-3.5 text-sm text-[#172033] outline-none transition placeholder:text-[#98A2B3] focus:border-[#00AFA8] focus:ring-4 focus:ring-[#00AFA8]/10" />
                     </label>
-                    <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#00AFA8] px-6 py-4 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(0,175,168,0.26)] transition hover:bg-[#008C86]">
-                      Send request
+                    {error && <p role="alert" className="text-center text-xs font-medium text-[#D92D20]">{error}</p>}
+                    <button disabled={sending} type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#00AFA8] px-6 py-4 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(0,175,168,0.26)] transition hover:bg-[#008C86] disabled:cursor-not-allowed disabled:opacity-60">
+                      {sending ? "Sending..." : "Send request"}
                       <span aria-hidden="true">→</span>
                     </button>
                   </form>

@@ -1,12 +1,15 @@
-import { defineConfig, type HtmlTagDescriptor, type Plugin } from 'vite'
+import { defineConfig, loadEnv, type HtmlTagDescriptor, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
+import { handleContact, handleDemoBooking } from './api/lib/email.js'
 
 import siteConfiguration from './.figma/make/site.json'
 
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  // Keep non-VITE SMTP values server-only while making them available to local API middleware.
+  Object.assign(process.env, loadEnv(mode, process.cwd(), ''))
   // .figma/make/deploy-preview passes `--mode development` for cached-preview builds.
   const emitSourcemaps = mode === 'development'
 
@@ -23,6 +26,7 @@ export default defineConfig(({ mode }) => {
       figmaErrorOverlayReplay(),
       figmaReactRefreshBoundaryFallback(),
       figmaMakeKitPlugin({ storiesGlob: '/src/**/*.stories.{ts,tsx,js,jsx}' }),
+      localApiPlugin(),
     ],
     resolve: {
       alias: {
@@ -41,6 +45,16 @@ export default defineConfig(({ mode }) => {
     },
   }
 })
+
+function localApiPlugin(): Plugin {
+  return {
+    name: 'local-email-api',
+    configureServer(server) {
+      server.middlewares.use('/api/contact', handleContact)
+      server.middlewares.use('/api/book-demo', handleDemoBooking)
+    },
+  }
+}
 
 type FigmaSiteConfiguration = {
   title?: string

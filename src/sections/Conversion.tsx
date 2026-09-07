@@ -241,7 +241,7 @@ function FinalCTA() {
             href="/contact"
             className="inline-flex items-center gap-2 bg-[#00AFA8] text-white font-semibold text-sm px-8 py-4 rounded-[14px] hover:bg-[#008C86] transition-colors shadow-[0_8px_32px_rgba(0,175,168,0.3)]"
           >
-            Get Started
+            Contact Us
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
               <path d="M2.5 7.5h10M8 3l4.5 4.5L8 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>

@@ -2,6 +2,7 @@ import { FormEvent, useMemo, useState } from "react"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import hiringEaseFavicon from "../imports/HE_favicon.png"
+import { submitDemoBooking } from "../services/api"
 
 const timeSlots = [
   "9:00 AM",
@@ -42,6 +43,9 @@ export default function BookDemoPage() {
   const [selectedDay, setSelectedDay] = useState<Date>(days[0])
   const [selectedTime, setSelectedTime] = useState("")
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [bookingError, setBookingError] = useState("")
+  const [timezone, setTimezone] = useState("Pakistan Standard Time (UTC+5)")
   const [details, setDetails] = useState({ name: "", email: "", company: "", teamSize: "", hiringVolume: "", attendees: "1", attendeeEmails: "", website: "", notes: "" })
 
   function updateField(name: string, value: string) {
@@ -54,9 +58,19 @@ export default function BookDemoPage() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  function confirmBooking(event: FormEvent<HTMLFormElement>) {
+  async function confirmBooking(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (!selectedTime) return
+    if (!selectedTime || submitting) return
+    setSubmitting(true)
+    setBookingError("")
+    const result = await submitDemoBooking({
+      contactName: details.name, email: details.email, companyName: details.company, companyWebsite: details.website, companySize: details.teamSize, monthlyHiringVolume: details.hiringVolume, peopleJoining: details.attendees, additionalAttendeeEmails: details.attendeeEmails, requirements: details.notes, scheduledDate: formattedDate, scheduledTime: selectedTime, timezone, website: "",
+    })
+    setSubmitting(false)
+    if (!result.success) {
+      setBookingError("Unable to confirm your demo right now. Please try again.")
+      return
+    }
     setSubmitted(true)
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
@@ -121,7 +135,7 @@ export default function BookDemoPage() {
                     <div className="rounded-[28px] border border-white/80 bg-gradient-to-br from-white/65 via-[#EFF8F7]/60 to-[#DDEDEC]/60 p-6 shadow-[0_24px_70px_rgba(23,32,51,0.10),inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-2xl sm:p-8">
                       <div className="flex flex-wrap items-center justify-between gap-4">
                         <div><h2 className="text-2xl font-black text-[#172033]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Select date and time</h2><p className="mt-1 text-xs text-[#667085]">Available times update automatically.</p></div>
-                        <span className="relative"><select aria-label="Timezone" className="appearance-none rounded-xl border border-[#CDD5DB] bg-white/45 py-2.5 pl-3 pr-9 text-xs text-[#475467] outline-none focus:border-[#00AFA8]"><option>Pakistan Standard Time (UTC+5)</option><option>Eastern Time (UTC-5)</option><option>Pacific Time (UTC-8)</option><option>Greenwich Mean Time (UTC+0)</option><option>Central European Time (UTC+1)</option></select><svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#475467]" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="m2.5 4.5 3.5 3 3.5-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+                        <span className="relative"><select value={timezone} onChange={(event) => setTimezone(event.target.value)} aria-label="Timezone" className="appearance-none rounded-xl border border-[#CDD5DB] bg-white/45 py-2.5 pl-3 pr-9 text-xs text-[#475467] outline-none focus:border-[#00AFA8]"><option>Pakistan Standard Time (UTC+5)</option><option>Eastern Time (UTC-5)</option><option>Pacific Time (UTC-8)</option><option>Greenwich Mean Time (UTC+0)</option><option>Central European Time (UTC+1)</option></select><svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#475467]" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="m2.5 4.5 3.5 3 3.5-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
                       </div>
 
                       <div className="mt-7 grid grid-cols-4 gap-2 sm:grid-cols-7">
@@ -133,7 +147,8 @@ export default function BookDemoPage() {
 
                       <div className="mt-7"><p className="mb-3 text-xs font-bold text-[#344054]">Available on {selectedDay.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-3">{timeSlots.map((time) => <button key={time} type="button" onClick={() => setSelectedTime(time)} className={`rounded-xl border px-3 py-3 text-xs font-semibold transition ${selectedTime === time ? "border-[#00AFA8] bg-[#00AFA8]/10 text-[#008C86]" : "border-[#CDD5DB] bg-white/35 text-[#475467] hover:border-[#00AFA8]/50"}`}>{time}</button>)}</div></div>
                       <div className="mt-7 rounded-xl border border-[#D4DCE2] bg-white/30 p-4"><div className="flex items-center justify-between gap-4"><div><p className="text-xs font-bold text-[#172033]">30-minute product demo</p><p className="mt-1 text-[10px] text-[#667085]">Google Meet · Calendar invitation included</p></div><span className="text-lg">◷</span></div></div>
-                      <button disabled={!selectedTime} type="submit" className="mt-5 inline-flex w-full items-center justify-center rounded-[14px] bg-[#00AFA8] px-6 py-4 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(0,175,168,0.24)] transition hover:bg-[#008C86] disabled:cursor-not-allowed disabled:opacity-40">Confirm demo</button>
+                      {bookingError && <p role="alert" className="mt-4 text-center text-xs font-medium text-[#D92D20]">{bookingError}</p>}
+                      <button disabled={!selectedTime || submitting} type="submit" className="mt-5 inline-flex w-full items-center justify-center rounded-[14px] bg-[#00AFA8] px-6 py-4 text-sm font-semibold text-white shadow-[0_8px_28px_rgba(0,175,168,0.24)] transition hover:bg-[#008C86] disabled:cursor-not-allowed disabled:opacity-40">{submitting ? "Confirming..." : "Confirm demo"}</button>
                     </div>
                   </form>
                 )}
