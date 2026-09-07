@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { submitContact } from "../services/api"
+import contactSuccess from "../imports/contact-success.svg"
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
@@ -65,11 +66,13 @@ export default function ContactPage() {
             <div className="rounded-[28px] border border-white/90 bg-white/65 p-6 shadow-[0_24px_70px_rgba(23,32,51,0.10)] backdrop-blur-2xl sm:p-9">
               {submitted ? (
                 <div className="flex min-h-[560px] flex-col items-center justify-center text-center">
-                  <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#00AFA8]/10 text-[#00AFA8]">
-                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                      <path d="m7 15 5 5 11-11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
+                  <img
+                    src={contactSuccess}
+                    alt=""
+                    width={601}
+                    height={423}
+                    className="mb-6 h-auto w-full max-w-[340px] shrink-0"
+                  />
                   <h2 className="text-3xl font-bold text-[#172033]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Thanks for reaching out.</h2>
                   <p className="mt-3 max-w-[390px] text-sm leading-relaxed text-[#667085]">Your request has been received. The HiringEase team will be in touch within one business day.</p>
                   <a href="/" className="mt-8 text-sm font-semibold text-[#00AFA8] hover:text-[#008C86]">Return to home</a>

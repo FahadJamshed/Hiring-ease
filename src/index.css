@@ -65,7 +65,7 @@
   border-radius: 50%;
   background: rgb(0 175 168 / 5%);
   box-shadow: 0 0 0 1px rgb(255 255 255 / 25%);
-  transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
+  transition: transform 100ms ease, background 100ms ease, border-color 100ms ease;
 }
 
 .animated-cursor[data-hover="true"] .animated-cursor__ring span {

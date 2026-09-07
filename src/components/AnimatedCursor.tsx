@@ -23,8 +23,8 @@ export default function AnimatedCursor() {
       frame = 0
     }
     const animate = () => {
-      ringX += (x - ringX) * 0.2
-      ringY += (y - ringY) * 0.2
+      ringX += (x - ringX) * 0.65
+      ringY += (y - ringY) * 0.65
       cursor.style.setProperty("--ring-x", `${ringX}px`)
       cursor.style.setProperty("--ring-y", `${ringY}px`)
       if (Math.abs(x - ringX) + Math.abs(y - ringY) > 0.1) {

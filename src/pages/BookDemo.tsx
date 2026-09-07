@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import hiringEaseFavicon from "../imports/HE_favicon.png"
 import { submitDemoBooking } from "../services/api"
+import demoSuccess from "../imports/demo-success.svg"
 
 const timeSlots = [
   "9:00 AM",
@@ -155,7 +156,13 @@ export default function BookDemoPage() {
               </>
             ) : (
               <div className="mx-auto max-w-[660px] rounded-[28px] border border-[#D4DCE2] bg-[#E9EFF2]/60 p-8 text-center shadow-[0_22px_70px_rgba(23,32,51,0.10)] backdrop-blur-2xl sm:p-12">
-                <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-[#00AFA8]/10 text-[#00AFA8]"><svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="m7 15 5 5 11-11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg></div>
+                <img
+                  src={demoSuccess}
+                  alt=""
+                  width={433}
+                  height={399}
+                  className="mx-auto h-auto w-full max-w-[220px] sm:max-w-[260px]"
+                />
                 <h1 className="mt-6 text-4xl font-black text-[#172033]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Your demo is booked.</h1>
                 <p className="mt-3 text-sm leading-relaxed text-[#667085]">We’ve reserved <strong className="text-[#172033]">{formattedDate} at {selectedTime}</strong>. A calendar invitation and meeting details will be sent to {details.email}.</p>
                 <div className="mx-auto mt-7 max-w-[440px] rounded-2xl border border-[#D4DCE2] bg-white/35 p-5 text-left"><p className="text-xs font-bold text-[#172033]">What happens next</p><ul className="mt-3 space-y-2 text-xs text-[#667085]"><li>✓ Check your inbox for the calendar invitation</li><li>✓ Invite any additional team members</li><li>✓ Bring your current hiring workflow questions</li></ul></div>
