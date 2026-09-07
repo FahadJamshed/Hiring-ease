@@ -2,6 +2,69 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
+.animated-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.animated-cursor[data-visible="true"] { opacity: 1; }
+
+.animated-cursor__dot,
+.animated-cursor__ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.animated-cursor__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #008c86;
+  box-shadow: 0 0 0 1.5px rgb(255 255 255 / 90%);
+  transform: translate3d(var(--cursor-x, -100px), var(--cursor-y, -100px), 0) translate(-50%, -50%);
+}
+
+.animated-cursor__ring {
+  transform: translate3d(var(--ring-x, -100px), var(--ring-y, -100px), 0) translate(-50%, -50%);
+}
+
+.animated-cursor__ring span {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgb(0 175 168 / 65%);
+  border-radius: 50%;
+  background: rgb(0 175 168 / 5%);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 25%);
+  transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
+}
+
+.animated-cursor[data-hover="true"] .animated-cursor__ring span {
+  transform: scale(1.5);
+  background: rgb(0 175 168 / 12%);
+  border-color: #00afa8;
+}
+
+.animated-cursor[data-pressed="true"] .animated-cursor__ring span {
+  transform: scale(0.75);
+  background: rgb(0 175 168 / 22%);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * { cursor: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse), (hover: none) {
+  .animated-cursor { display: none; }
+}
+
 html,
 body,
 #root {

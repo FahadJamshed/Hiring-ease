@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Navbar from "./components/Navbar"
 import hiringEaseFavicon from "./imports/HE_favicon.png"
 import QuickHelp from "./components/QuickHelp"
+import AnimatedCursor from "./components/AnimatedCursor"
 import Footer from "./components/Footer"
 import HeroSection from "./sections/Hero"
 import ProblemSection from "./sections/Problem"
@@ -35,6 +36,7 @@ export default function App() {
 
   return (
     <>
+      <AnimatedCursor />
       {loaderVisible && <SiteLoader leaving={loaderLeaving} />}
       <QuickHelp />
       {path === "/contact" ? (

@@ -18,6 +18,10 @@ export default function QuickHelp() {
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", text: "Hi! I'm the HiringEase AI assistant. What would you like to know?" },
   ])
+  const [sending, setSending] = useState(false)
+  const [chatError, setChatError] = useState("")
+  const sendingRef = useRef(false)
+  const chatRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -34,12 +38,40 @@ export default function QuickHelp() {
     return () => window.removeEventListener("scroll", updateScrollTop)
   }, [])
 
-  function sendMessage(event: FormEvent<HTMLFormElement>) {
+  useEffect(() => {
+    if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight
+  }, [messages, sending, chatError, view, open])
+
+  async function sendMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const question = message.trim()
-    if (!question) return
-    setMessages((current) => [...current, { role: "user", text: question }, { role: "assistant", text: getAiReply(question) }])
+    if (!question || sendingRef.current) return
+    sendingRef.current = true
+    setSending(true)
+    setChatError("")
+    const history: Message[] = [...messages, { role: "user", text: question }]
+    setMessages(history)
     setMessage("")
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history.slice(1).slice(-11) }),
+        signal: AbortSignal.timeout(30_000),
+      })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || "AI chat is temporarily unavailable.")
+      if (typeof data.reply !== "string" || !data.reply.trim()) throw new Error("AI chat is temporarily unavailable.")
+      setMessages([...history, { role: "assistant", text: data.reply }])
+    } catch (error) {
+      setMessages(history.slice(0, -1))
+      setMessage(question)
+      setChatError(error instanceof Error && !(error instanceof SyntaxError) && error.name !== "TimeoutError" && error.name !== "TypeError"
+        ? error.message : "Couldn't connect to AI chat. Please try again or contact our team.")
+    } finally {
+      sendingRef.current = false
+      setSending(false)
+    }
   }
 
   return (
@@ -104,22 +136,24 @@ export default function QuickHelp() {
               <div>
                 <div className="mb-3 flex items-center gap-2">
                   <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#00AFA8]/10 text-sm text-[#00AFA8]">✦</span>
-                  <div><p className="text-xs font-bold text-[#172033]">HiringEase AI</p><p className="text-[9px] text-[#12B76A]">● Online</p></div>
+                  <div><p className="text-xs font-bold text-[#172033]">HiringEase AI</p><p className="text-[9px] text-[#12B76A]">{sending ? "Thinking…" : "Website assistant"}</p></div>
                 </div>
-                <div className="no-scroll flex max-h-[260px] min-h-[210px] flex-col gap-2 overflow-y-auto rounded-xl bg-[#F8FAFC]/70 p-3">
+                <div ref={chatRef} role="log" aria-live="polite" aria-label="Chat messages" className="no-scroll flex max-h-[260px] min-h-[210px] flex-col gap-2 overflow-y-auto rounded-xl bg-[#F8FAFC]/70 p-3">
                   {messages.map((item, index) => (
-                    <div key={index} className={`max-w-[86%] rounded-xl px-3 py-2 text-[11px] leading-relaxed ${item.role === "user" ? "ml-auto bg-[#00AFA8] text-white" : "bg-white text-[#475467] shadow-[0_2px_10px_rgba(23,32,51,0.06)]"}`}>
+                    <div key={index} className={`max-w-[86%] whitespace-pre-wrap break-words rounded-xl px-3 py-2 text-[11px] leading-relaxed ${item.role === "user" ? "ml-auto bg-[#00AFA8] text-white" : "bg-white text-[#475467] shadow-[0_2px_10px_rgba(23,32,51,0.06)]"}`}>
                       {item.text}
                     </div>
                   ))}
                 </div>
+                {sending && <p role="status" className="mt-2 text-[11px] text-[#667085]">HiringEase AI is thinking…</p>}
+                {chatError && <p role="alert" className="mt-2 text-[11px] text-[#B42318]">{chatError} <a href="/contact" className="underline">Contact our team</a></p>}
                 <form onSubmit={sendMessage} className="mt-3 flex gap-2">
-                  <input value={message} onChange={(event) => setMessage(event.target.value)} aria-label="Message HiringEase AI" placeholder="Ask about HiringEase..." className="min-w-0 flex-1 rounded-xl border border-[#D0D5DD] bg-white/80 px-3 py-2.5 text-xs text-[#172033] outline-none placeholder:text-[#98A2B3] focus:border-[#00AFA8] focus:ring-2 focus:ring-[#00AFA8]/10" />
-                  <button type="submit" className="grid h-9 w-9 shrink-0 place-items-center self-center rounded-xl bg-[#00AFA8] text-white transition hover:bg-[#008C86]" aria-label="Send message">
+                  <input disabled={sending} maxLength={1000} value={message} onChange={(event) => setMessage(event.target.value)} aria-label="Message HiringEase AI" placeholder="Ask about HiringEase..." className="min-w-0 flex-1 rounded-xl border border-[#D0D5DD] bg-white/80 px-3 py-2.5 text-xs text-[#172033] outline-none placeholder:text-[#98A2B3] focus:border-[#00AFA8] focus:ring-2 focus:ring-[#00AFA8]/10" />
+                  <button type="submit" disabled={sending || !message.trim()} className="disabled:opacity-50 disabled:cursor-not-allowed grid h-9 w-9 shrink-0 place-items-center self-center rounded-xl bg-[#00AFA8] text-white transition hover:bg-[#008C86]" aria-label="Send message">
                     <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h10M8 3.5l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </button>
                 </form>
-                <p className="mt-2 text-center text-[9px] text-[#98A2B3]">AI answers may be imperfect. Contact our team for tailored advice.</p>
+                <p className="mt-2 text-center text-[9px] text-[#98A2B3]">AI answers may be imperfect. Messages are processed by Google Gemini. Please don’t share personal or candidate data.</p>
               </div>
             )}
           </div>
@@ -173,16 +207,4 @@ function HelpChoice({ title, text, icon, onClick }: { title: string; text: strin
       <span className="text-[#00AFA8]">→</span>
     </button>
   )
-}
-
-function getAiReply(question: string) {
-  const text = question.toLowerCase()
-  if (text.includes("price") || text.includes("pricing") || text.includes("cost")) return "HiringEase offers Starter, Growth, and Enterprise plans with pricing tailored to your team. Visit the Pricing section or contact our team for a quote."
-  if (text.includes("demo") || text.includes("call") || text.includes("contact")) return "You can book a tailored walkthrough on our Contact page. Choose “Help & support” and then “Contact our team.”"
-  if (text.includes("security") || text.includes("secure") || text.includes("privacy")) return "HiringEase includes role-based access, MFA, row-level security, audit logging, and organization-level controls."
-  if (text.includes("email") || text.includes("gmail") || text.includes("outlook") || text.includes("zoho")) return "HiringEase supports Gmail, Outlook, Zoho Mail, and custom SMTP so candidate messages can be sent from your own domain."
-  if (text.includes("ai") || text.includes("resume") || text.includes("match")) return "HiringEase uses AI to structure resume data, create candidate profiles, and generate job-match insights that help teams review applicants faster."
-  if (text.includes("integration")) return "HiringEase works with email and scheduling tools including Gmail, Outlook, Zoho Mail, Google Calendar, Google Meet, and custom SMTP."
-  if (text.includes("hello") || text.includes("hi ") || text === "hi") return "Hello! Ask me about features, AI resume matching, integrations, security, pricing, or booking a demo."
-  return "HiringEase brings candidates, pipelines, interviews, email, and team feedback into one workspace. For a more specific answer, try asking about features, pricing, integrations, security, or demos."
 }

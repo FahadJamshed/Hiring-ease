@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 import { handleContact, handleDemoBooking } from './api/lib/email.js'
+import handleChat from './api/chat.js'
 
 import siteConfiguration from './.figma/make/site.json'
 
@@ -48,10 +49,14 @@ export default defineConfig(({ mode }) => {
 
 function localApiPlugin(): Plugin {
   return {
-    name: 'local-email-api',
+    name: 'local-api',
     configureServer(server) {
       server.middlewares.use('/api/contact', handleContact)
       server.middlewares.use('/api/book-demo', handleDemoBooking)
+      server.middlewares.use('/api/chat', handleChat)
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use('/api/chat', handleChat)
     },
   }
 }
