@@ -16,7 +16,7 @@ export default function ContactPage() {
     setError("")
     const form = new FormData(event.currentTarget)
     const result = await submitContact({
-      firstName: String(form.get("firstName") || ""), lastName: String(form.get("lastName") || ""), email: String(form.get("email") || ""), company: String(form.get("company") || ""), teamSize: String(form.get("teamSize") || ""), message: String(form.get("message") || ""), website: String(form.get("website") || ""),
+      firstName: String(form.get("firstName") || ""), lastName: String(form.get("lastName") || ""), email: String(form.get("email") || ""), company: String(form.get("company") || ""), teamSize: String(form.get("teamSize") || ""), message: String(form.get("message") || ""), contactFax: String(form.get("contactFax") || ""),
     })
     setSending(false)
     if (result.success) setSubmitted(true)
@@ -82,7 +82,9 @@ export default function ContactPage() {
                   <h2 className="text-2xl font-bold text-[#172033]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Talk to our team</h2>
                   <p className="mb-7 mt-2 text-sm text-[#667085]">Share a few details and we'll get back to you shortly.</p>
                   <form onSubmit={handleSubmit} className="space-y-5">
-                    <input name="website" tabIndex={-1} autoComplete="off" className="absolute h-px w-px overflow-hidden opacity-0" aria-hidden="true" />
+                    <div hidden aria-hidden="true">
+                      <input name="contactFax" tabIndex={-1} autoComplete="off" />
+                    </div>
                     <div className="grid gap-5 sm:grid-cols-2">
                       <Field label="First name" name="firstName" placeholder="Alex" />
                       <Field label="Last name" name="lastName" placeholder="Morgan" />

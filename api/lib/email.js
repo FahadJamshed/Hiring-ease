@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer"
 import { readFile } from "node:fs/promises"
 import path from "node:path"
+import { randomUUID } from "node:crypto"
 
 const requests = new Map()
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -86,10 +87,34 @@ async function deliver(messages) {
   const client = transporter()
   const logo = await readFile(path.join(process.cwd(), "src/imports/email-logo-light.png"))
   const darkLogo = await readFile(path.join(process.cwd(), "src/imports/email-logo-dark.png"))
-  const results = await Promise.all(messages.map((message) => client.sendMail({ from: { name: process.env.SMTP_FROM_NAME || "HiringEase", address: process.env.SMTP_FROM_EMAIL }, ...message, attachments: [{ filename: "hiringease.png", content: logo, contentType: "image/png", cid: "hiringease-logo", contentDisposition: "inline" }, { filename: "hiringease-dark.png", content: darkLogo, contentType: "image/png", cid: "hiringease-logo-dark", contentDisposition: "inline" }] })))
-  for (const result of results) {
+  const results = await Promise.allSettled(messages.map((message) => {
+    // Give each embedded image a globally unique, email-style Content-ID.
+    const domain = process.env.SMTP_FROM_EMAIL.split("@")[1]
+    const id = randomUUID()
+    const lightCid = `logo-light.${id}@${domain}`
+    const darkCid = `logo-dark.${id}@${domain}`
+    return client.sendMail({
+      from: { name: process.env.SMTP_FROM_NAME || "HiringEase", address: process.env.SMTP_FROM_EMAIL },
+      ...message,
+      html: message.html.replaceAll('src="cid:hiringease-logo"', `src="cid:${lightCid}"`).replaceAll('src="cid:hiringease-logo-dark"', `src="cid:${darkCid}"`),
+      attachments: [
+        { filename: "hiringease.png", content: logo, contentType: "image/png", cid: lightCid, contentDisposition: "inline" },
+        { filename: "hiringease-dark.png", content: darkLogo, contentType: "image/png", cid: darkCid, contentDisposition: "inline" },
+      ],
+    })
+  }))
+  let failed = false
+  for (const outcome of results) {
+    if (outcome.status === "rejected") {
+      failed = true
+      console.error("email_send_failed", { reason: outcome.reason instanceof Error ? outcome.reason.message : "unknown" })
+      continue
+    }
+    const result = outcome.value
     console.info("email_accepted", { messageId: result.messageId, accepted: result.accepted?.length ?? 0, rejected: result.rejected?.length ?? 0, response: result.response })
+    if (!result.accepted?.length || result.rejected?.length) failed = true
   }
+  if (failed) throw new Error("email_delivery_failed")
 }
 
 export async function handleContact(request, response) {
@@ -97,7 +122,8 @@ export async function handleContact(request, response) {
   if (limit(request)) return publicError(response, 429)
   try {
     const payload = await readBody(request)
-    if (payload.website) return sendJson(response, 200, { success: true, message: "Thanks! Your message has been sent successfully." })
+    // Ignore the legacy website field: browsers can autofill it on older pages.
+    if (payload.contactFax) return publicError(response)
     const firstName = clean(payload.firstName, 80), lastName = clean(payload.lastName, 80), email = clean(payload.email, 254), company = clean(payload.company, 160), teamSize = clean(payload.teamSize, 60), message = cleanMultiline(payload.message, 4000)
     if (!firstName || !lastName || !EMAIL.test(email) || !company || !teamSize || !message) return publicError(response)
     const submitted = new Date().toISOString()
@@ -123,7 +149,7 @@ export async function handleDemoBooking(request, response) {
   if (limit(request)) return publicError(response, 429)
   try {
     const payload = await readBody(request)
-    if (payload.website) return sendJson(response, 200, { success: true, message: "Your demo has been booked successfully." })
+    if (payload.website) return publicError(response)
     const contactName = clean(payload.contactName, 160), email = clean(payload.email, 254), companyName = clean(payload.companyName, 160), website = clean(payload.companyWebsite, 250), companySize = clean(payload.companySize, 80), hiringVolume = clean(payload.monthlyHiringVolume, 80), peopleJoining = clean(payload.peopleJoining, 20), scheduledDate = clean(payload.scheduledDate, 80), scheduledTime = clean(payload.scheduledTime, 40), timezone = clean(payload.timezone, 120), requirements = cleanMultiline(payload.requirements, 4000)
     const attendees = String(payload.additionalAttendeeEmails || "").split(",").map((item) => clean(item, 254)).filter(Boolean)
     if (!contactName || !EMAIL.test(email) || !companyName || !companySize || !hiringVolume || !peopleJoining || !scheduledDate || !scheduledTime || !timezone || !requirements || attendees.some((item) => !EMAIL.test(item))) return publicError(response)
