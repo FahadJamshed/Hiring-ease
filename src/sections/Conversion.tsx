@@ -198,7 +198,7 @@ function FinalCTA() {
         <div className="mx-auto flex w-full max-w-[620px] items-stretch justify-center gap-3 sm:gap-4">
           <a
             href="/contact"
-            className="inline-flex flex-1 items-center justify-center gap-2 bg-[#00AFA8] text-white font-semibold text-base sm:text-lg px-5 py-3 sm:py-4 rounded-[14px] hover:bg-[#008C86] transition-colors shadow-[0_8px_32px_rgba(0,175,168,0.3)] min-h-[60px] sm:min-h-[72px]"
+            className="inline-flex flex-1 items-center justify-center gap-2 bg-[#00AFA8] text-white font-semibold text-base sm:text-lg px-5 py-3 rounded-[14px] hover:bg-[#008C86] transition-colors shadow-[0_8px_32px_rgba(0,175,168,0.3)] min-h-[60px] sm:min-h-[64px]"
           >
             Contact Us
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
@@ -207,7 +207,7 @@ function FinalCTA() {
           </a>
           <a
             href="/book-demo"
-            className="inline-flex flex-1 items-center justify-center gap-2 text-[#172033] font-semibold text-base sm:text-lg px-5 py-3 sm:py-4 rounded-[14px] bg-white border border-[#E4E7EC] hover:border-[#D0D5DD] transition-colors min-h-[60px] sm:min-h-[72px]"
+            className="inline-flex flex-1 items-center justify-center gap-2 text-[#172033] font-semibold text-base sm:text-lg px-5 py-3 rounded-[14px] bg-white border border-[#E4E7EC] hover:border-[#D0D5DD] transition-colors min-h-[60px] sm:min-h-[64px]"
           >
             Book a Demo
           </a>
