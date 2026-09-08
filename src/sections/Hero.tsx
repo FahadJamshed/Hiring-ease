@@ -207,10 +207,12 @@ export default function HeroSection() {
         </p>
 
         {/* CTAs */}
-        <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 transition-all duration-700 delay-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        <div
+          className={`mx-auto flex w-full max-w-[620px] items-stretch justify-center gap-3 sm:gap-4 mb-16 transition-all duration-700 delay-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+        >
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 bg-[#00AFA8] text-white font-semibold text-sm px-7 py-3.5 rounded-[12px] hover:bg-[#008C86] transition-colors shadow-[0_4px_16px_rgba(0,175,168,0.3)]"
+            className="inline-flex flex-1 items-center justify-center gap-2 bg-[#00AFA8] text-white font-semibold text-base sm:text-lg px-5 py-4 rounded-[14px] hover:bg-[#008C86] transition-colors shadow-[0_4px_16px_rgba(0,175,168,0.3)] min-h-[72px]"
           >
             Contact Us
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
@@ -219,7 +221,7 @@ export default function HeroSection() {
           </a>
           <a
             href="/book-demo"
-            className="inline-flex items-center gap-2 text-[#172033] font-semibold text-sm px-7 py-3.5 rounded-[12px] bg-white border border-[#E4E7EC] hover:border-[#D0D5DD] transition-colors"
+            className="inline-flex flex-1 items-center justify-center gap-2 text-[#172033] font-semibold text-base sm:text-lg px-5 py-4 rounded-[14px] bg-white border border-[#E4E7EC] hover:border-[#D0D5DD] transition-colors min-h-[72px]"
           >
             Book a Demo
           </a>
