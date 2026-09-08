@@ -45,7 +45,7 @@ export default function Navbar() {
 
         <div className="hidden lg:flex items-center gap-3">
           <a
-            href="/contact"
+            href="https://app.hiring-ease.com/"
             className="text-sm font-semibold text-white bg-[#00AFA8] hover:bg-[#008C86] transition-colors px-5 py-2.5 rounded-[12px] shadow-[0_2px_8px_rgba(0,175,168,0.25)]"
           >
             Sign In
@@ -55,7 +55,7 @@ export default function Navbar() {
         {/* Mobile */}
         <div className="lg:hidden flex shrink-0 items-center gap-1 sm:gap-3">
           <a
-            href="/contact"
+            href="https://app.hiring-ease.com/"
             className="text-sm font-semibold text-white bg-[#00AFA8] px-4 py-2.5 rounded-[10px]"
           >
             Sign In
@@ -93,7 +93,7 @@ export default function Navbar() {
             ))}
             <div className="py-4">
               <a
-                href="#"
+                href="https://app.hiring-ease.com/"
                 className="block text-center text-sm font-medium text-[#475467] py-3 border border-[#E4E7EC] rounded-[10px]"
               >
                 Sign In
