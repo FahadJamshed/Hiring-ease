@@ -211,19 +211,19 @@ export default function HeroSection() {
           className={`mx-auto flex w-full max-w-[540px] items-stretch justify-center gap-3 sm:gap-4 mb-16 transition-all duration-700 delay-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
         >
           <a
-            href="/contact"
+            href="/book-demo"
             className="inline-flex flex-1 items-center justify-center gap-2 bg-[#00AFA8] text-white font-semibold text-sm sm:text-base px-4 py-2.5 rounded-[12px] hover:bg-[#008C86] transition-colors shadow-[0_4px_16px_rgba(0,175,168,0.3)] min-h-[52px] sm:min-h-[56px]"
           >
-            Contact Us
+            Book a Demo
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
               <path d="M2.5 7.5h10M8 3l4.5 4.5L8 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
           <a
-            href="/book-demo"
+            href="https://app.hiring-ease.com"
             className="inline-flex flex-1 items-center justify-center gap-2 text-[#172033] font-semibold text-sm sm:text-base px-4 py-2.5 rounded-[12px] bg-white border border-[#E4E7EC] hover:border-[#D0D5DD] transition-colors min-h-[52px] sm:min-h-[56px]"
           >
-            Book a Demo
+            Start Free Trial
           </a>
         </div>
 
