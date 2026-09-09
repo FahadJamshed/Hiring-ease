@@ -2,6 +2,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
+@keyframes hero-dot-blink {
+  0%,
+  40% {
+    opacity: 1;
+  }
+
+  50%,
+  90% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.hero-dot {
+  display: inline-block;
+  font-weight: 400;
+  animation: hero-dot-blink 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-dot {
+    animation: none;
+  }
+}
+
 /* Observe stationary sections; animate their content without shifting layout. */
 @media (prefers-reduced-motion: no-preference) {
   .scroll-scene > div {

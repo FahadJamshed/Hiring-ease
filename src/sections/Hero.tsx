@@ -192,7 +192,7 @@ export default function HeroSection() {
           }`}
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
-          Hire smarter.
+          Hire smarter<span className="hero-dot">_</span>
           <br />
           <span className="text-[#292929]">Move candidates faster.</span>
         </h1>
