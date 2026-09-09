@@ -207,7 +207,7 @@ function FinalCTA() {
           </a>
           <a
             href="/book-demo"
-            className="inline-flex flex-1 items-center justify-center gap-2 text-[#172033] font-semibold text-base sm:text-lg px-5 py-3 rounded-[14px] bg-white border border-[#E4E7EC] hover:border-[#D0D5DD] transition-colors min-h-[60px] sm:min-h-[64px]"
+            className="inline-flex flex-1 items-center justify-center gap-2 text-[#172033] font-semibold text-base sm:text-lg px-5 py-3 rounded-[14px] bg-white border border-[#E4E7EC] hover:bg-[#ECFDFB] hover:border-[#00AFA8]/50 hover:text-[#008C86] hover:shadow-[0_6px_20px_rgba(0,175,168,0.14)] transition-all min-h-[60px] sm:min-h-[64px]"
           >
             Book a Demo
           </a>

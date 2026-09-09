@@ -221,7 +221,7 @@ export default function HeroSection() {
           </a>
           <a
             href="https://app.hiring-ease.com"
-            className="inline-flex flex-1 items-center justify-center gap-2 text-[#172033] font-semibold text-sm sm:text-base px-4 py-2.5 rounded-[12px] bg-white border border-[#E4E7EC] hover:border-[#D0D5DD] transition-colors min-h-[52px] sm:min-h-[56px]"
+            className="inline-flex flex-1 items-center justify-center gap-2 text-[#172033] font-semibold text-sm sm:text-base px-4 py-2.5 rounded-[12px] bg-white border border-[#E4E7EC] hover:bg-[#ECFDFB] hover:border-[#00AFA8]/50 hover:text-[#008C86] hover:shadow-[0_4px_16px_rgba(0,175,168,0.14)] transition-all min-h-[52px] sm:min-h-[56px]"
           >
             Start Free Trial
           </a>
